@@ -1,5 +1,8 @@
 package com.haeun.firstproject.controller;
 
+import javax.validation.Valid;
+
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.haeun.firstproject.dto.request.ExampleDto;
+import com.haeun.firstproject.dto.response.ExampleResponseDto;
 
 
 class ParamDto {
@@ -150,10 +154,27 @@ public class RestApiController {
         return ResponseEntity.status(408).body(dto);
     }
 
-    
+
     @PostMapping("lombok")
     public String lombok(@RequestBody ExampleDto requestBody) {
         return requestBody.toString();
     }
+
+    @PostMapping("lombok2")
+    public ExampleResponseDto lombok2(@Valid @RequestBody ExampleDto requestBody) {
+        String data1 = requestBody.getParameter1();
+        String data2 = requestBody.getParameter2();
+        String data3 = requestBody.getParameter3();
+
+        //ExampleResponseDto responseData = new ExampleResponseDto(data1, data2, data3);
+
+        //builder 인스턴스를 생성해주는 메서드
+        ExampleResponseDto responseData = 
+            ExampleResponseDto.builder().data1(data1).build();
+
+        return responseData; //여기 리턴해주는 것이 responseData클래스의 변수를 가져와야지 리턴을 해줄 수 있는 거 그래서 getter거 responseData클래스에 필요한 것이다.
+    }
+
+
 
 }
