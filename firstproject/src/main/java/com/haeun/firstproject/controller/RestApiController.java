@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.haeun.firstproject.dto.request.ExampleDto;
+
 
 class ParamDto {
     String data1;
@@ -148,5 +150,10 @@ public class RestApiController {
         return ResponseEntity.status(408).body(dto);
     }
 
+    
+    @PostMapping("lombok")
+    public String lombok(@RequestBody ExampleDto requestBody) {
+        return requestBody.toString();
+    }
 
 }

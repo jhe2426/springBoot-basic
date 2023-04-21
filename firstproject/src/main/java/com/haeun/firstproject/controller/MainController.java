@@ -13,7 +13,7 @@ public class MainController {
 
     private final MainService mainService;
 
-    @Autowired
+    @Autowired //* Spring context에 등록한 Spring Bean을 IoC를 통해 DI를 수행하는 어노테이션이다.
     public MainController(MainService mainService) {
         this.mainService = mainService;
     }
