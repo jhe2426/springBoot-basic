@@ -42,7 +42,7 @@ class ParamDto {
     }
 }
 
-
+//* api : 다른 앱플리케이션과 우리 앱플리케이션과의 약속
 // Rest API를 위한 Controller임을 명시해주는 어노테이션
 // @Controller + @ResponseBody = @RestController
 // Response는 HTML을 제외한 MIME type을 반환
