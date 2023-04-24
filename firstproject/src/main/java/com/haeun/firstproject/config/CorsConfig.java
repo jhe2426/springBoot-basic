@@ -5,6 +5,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration //스프링의 기본 설정을 바꿀 수 있게 해주는 어노테이션(바꿀 인터페이스를 구현을 하여 설정을 바꿀 수 있음)
+//CORS
+//다른 도메인에서의 자원을 호출하는 행위에 제한이 없을 경우 안전을 보장하기 힘듦. 
+//CORS(Cross-Origin Resource Sharing)는 이렇게 시스템 수준에서 타 도메인 간 자원 호출을 승인하거나 차단하는 것을 결정하는 것임
 public class CorsConfig  implements WebMvcConfigurer{
     
     @Override

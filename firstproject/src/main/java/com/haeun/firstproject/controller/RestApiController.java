@@ -2,6 +2,7 @@ package com.haeun.firstproject.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.haeun.firstproject.dto.request.ExampleDto;
 import com.haeun.firstproject.dto.response.ExampleResponseDto;
+import com.haeun.firstproject.service.RestApiService;
+import com.haeun.firstproject.service.implement.RestApiServiceImplement;
 
 
 class ParamDto {
@@ -50,7 +53,16 @@ class ParamDto {
 // URL path 패턴을 지정해서 해당 패턴이면 지정한 클래스에서 처리하도록 함
 @RequestMapping("api")
 public class RestApiController {
-  
+    
+
+    private RestApiService restApiService;
+    //private RestApiService restApiService = new RestApiServiceImplement(); // 이렇게 내부에서 만들어 주면 이거 하나가 문제가 발생하면 여기에 있는 전부를 다 사용하지 못하는 경우가 발생하므로 (외부에서 주입하도록 해야하는 것이다.)
+
+    public RestApiController(RestApiService restApiService) { //생성자에서 주입을 할 때는 @Autowired를 생략해도 알아서 서버가 IOC를 해줌
+        this.restApiService = restApiService;
+    }
+    //집접 구현체 클래스를 컨트롤에서 받으면 그 구현체가 아직 다 완성이 되지 않았을 수도 있고, 해당 구현체에 문제가 생기면 프로그램 자체도 실행이 되지 않을 수 도 있다.
+    
     @RequestMapping(method = RequestMethod.GET, value = "hello2") //이러한 방식은 가독성이 떨어져서 잘 사용하지 않는다고 함
     public String hello2() {
         return "hello2";
@@ -61,7 +73,7 @@ public class RestApiController {
     // @RequestMapping(method =  RequestMethod.GET, value = "get-method")
     @GetMapping("get-method") // value속성은 생략 가능
     public String getMethod() {
-        return "Response of Get Request";
+        return restApiService.getMethod();
     }
 
     // POST Method @PostMapping
@@ -70,7 +82,7 @@ public class RestApiController {
     //* Method를 잘 못 입력하면 405에러가 발생하게 됨(405 : 요청한 리소스를 서버가 인식하지만 사용할 수 없음)
     @PostMapping("post-method")
     public String postMethod() {
-        return "Response of Post Request";
+        return restApiService.postMethod();
     }
 
     // PATCH Method @PatchMapping
@@ -79,7 +91,7 @@ public class RestApiController {
     //* Patch와 Put은 Post와 같이 RequestBody에 담겨서 감
     @PatchMapping("patch-method")
     public String patchMethod() {
-        return "Response of Patch Request";
+        return restApiService.patchMethod();
     }    
 
     // DELETE Method @DeleteMapping
@@ -89,7 +101,7 @@ public class RestApiController {
     //* Delete는 URL에 RequestHeader에 담겨서 감 스프링에서는 DeleteMapping을 사용할 때 RequestBody에 데이터를 담으면 담지를 못 함
     @DeleteMapping("delete-method")
     public String deleteMethod() {
-        return "Response of Delete Request";
+        return restApiService.deleteMethod();
     }
 
     // @PathVariable()로 GET, DELETE Method에서 데이터 받기 
@@ -172,7 +184,7 @@ public class RestApiController {
         ExampleResponseDto responseData = 
             ExampleResponseDto.builder().data1(data1).build();
 
-        return responseData; //여기 리턴해주는 것이 responseData클래스의 변수를 가져와야지 리턴을 해줄 수 있는 거 그래서 getter거 responseData클래스에 필요한 것이다.
+        return responseData; //여기 리턴해주는 것이 responseData클래스의 변수를 가져와야지 리턴을 해줄 수 있는 거 그래서 getter가 responseData클래스에 필요한 것이다.
     }
 
 
