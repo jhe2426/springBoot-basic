@@ -52,16 +52,16 @@ class ParamDto {
 @RestController
 // URL path 패턴을 지정해서 해당 패턴이면 지정한 클래스에서 처리하도록 함
 @RequestMapping("api")
-public class RestApiController {
+public class RestApiController { //* 컨트롤러는 인터페이스로 잘 구현하지는 않는다고 함
     
 
     private RestApiService restApiService;
     //private RestApiService restApiService = new RestApiServiceImplement(); // 이렇게 내부에서 만들어 주면 이거 하나가 문제가 발생하면 여기에 있는 전부를 다 사용하지 못하는 경우가 발생하므로 (외부에서 주입하도록 해야하는 것이다.)
 
-    public RestApiController(RestApiService restApiService) { //생성자에서 주입을 할 때는 @Autowired를 생략해도 알아서 서버가 IOC를 해줌
+    public RestApiController(RestApiService restApiService) { //* 생성자에서 주입을 할 때는 @Autowired를 생략해도 알아서 서버가 IOC를 해줌
         this.restApiService = restApiService;
     }
-    //집접 구현체 클래스를 컨트롤에서 받으면 그 구현체가 아직 다 완성이 되지 않았을 수도 있고, 해당 구현체에 문제가 생기면 프로그램 자체도 실행이 되지 않을 수 도 있다.
+    //* 직접 구현체 클래스를 컨트롤에서 받으면 그 구현체가 아직 다 완성이 되지 않았을 수도 있고, 해당 구현체에 문제가 생기면 프로그램 자체도 실행이 되지 않을 수 도 있다. 그래서 인터페이스를 주입하는 것이다.
     
     @RequestMapping(method = RequestMethod.GET, value = "hello2") //이러한 방식은 가독성이 떨어져서 잘 사용하지 않는다고 함
     public String hello2() {
