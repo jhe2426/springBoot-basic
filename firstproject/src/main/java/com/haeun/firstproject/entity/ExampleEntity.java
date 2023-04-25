@@ -30,7 +30,7 @@ public class ExampleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "example_column1", nullable = false, unique = true) //@Column name속성에 지정한 이름이 실제 테이블의 컬럼명이 되므로 밑에 변수 선언의 명은 아무런 이름을 사용해도 상관 없는 것
-    private int pk;
+    private int pk; //이런식으로 지정을 하면 Repository클래스에서 사용자가 쿼리 메서드를 만들 때 이 변수명을 적어야 하므로 헷갈리기 때문에 데이터베이스 컬럼명과 같게 선언하는 것이 좋다.
     private String exampleColumn2;
     private boolean exampleColumn3;
 }
