@@ -91,7 +91,8 @@ public class BoardServiceImplement implements BoardService {
 
         try {
 
-            if (boardNumber == null) return CustomResponse.vaildationFaild();
+            if (boardNumber == null) return CustomResponse.vaildationFaild(); //이 메서드는 재사용을 하기 위해서 사용하는 방법도 맞지만 저 메서드는 고객과 개발자들과의 약속이므로 인터페이스로 만드는 것이 맞다
+            // 인터페이스의 제한 메서드의 선언부만 존재할 수 있다. 구현체를 작성할 수 없으므로 한 줄 변수로 만들어서 정의 하면 된다.
 
 
              // TODO : 존재하지 않는 게시물 번호
@@ -107,6 +108,8 @@ public class BoardServiceImplement implements BoardService {
             //* int형임 Integer가 int형으로 형변환은 되지만 문제가 되는 것은 int는 null값을 받지 못하므로 매겨변수로 들어오는 boardNumber의 null값이 들어올 수 있는 경우를 예외 처리 해줘야 함
             List<CommentEntity>  commentEntities = commentRepository.findByBoardNumber(boardNumber);
             List<LikyEntity> likyEntities = likyRepository.findByBoardNumber(boardNumber);
+
+            body = new GetBoardResponseDto(boardEntity, userEntity, commentEntities, likyEntities);
 
         } catch (Exception exception) {
             // TODO : 데이터베이스  오류 반환
