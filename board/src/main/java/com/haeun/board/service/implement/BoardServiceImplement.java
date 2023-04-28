@@ -14,7 +14,6 @@ import com.haeun.board.dto.response.ResponseDto;
 import com.haeun.board.dto.response.board.GetBoardListResponseDto;
 import com.haeun.board.dto.response.board.GetBoardResponseDto;
 import com.haeun.board.entity.BoardEntity;
-import com.haeun.board.entity.BoradEntity;
 import com.haeun.board.entity.CommentEntity;
 import com.haeun.board.entity.LikyEntity;
 import com.haeun.board.entity.UserEntity;
@@ -100,7 +99,10 @@ public class BoardServiceImplement implements BoardService {
             //이런식으로 데이터베이스에 받오는 값이 null인 값을 받아 올 수 있는 것이 개발자가 작성한 쿼리 메서드를 사용해서 가능한 것이다.
             if (boardEntity == null) return CustomResponse.notExistBoardNumber();
 
-            
+            // TODO : 게시물 조회 했을 시 viewCount 증가
+            int viewCount = boardEntity.getViewCount();
+            boardEntity.setViewCount(viewCount + 1);
+            boardRepository.save(boardEntity);
         
             String boardWriterEmail = boardEntity.getWriterEmail();
             UserEntity userEntity = userRepository.findByEmail(boardWriterEmail); // 게시물을 작성한 유저의 정보를 데이터베이스에서 가져오는 거
@@ -134,7 +136,40 @@ public class BoardServiceImplement implements BoardService {
 
     @Override
     public ResponseEntity<ResponseDto> patchBoard(PatchBoardRequestDto dto) {
-        throw new UnsupportedOperationException("Unimplemented method 'patchBoard'");
+        
+        int boardNumber = dto.getBoardNumber();
+        String userEmail = dto.getUserEmail();
+        String boardTitle = dto.getBoardTitle();
+        String boardContent = dto.getBoardContent();
+        String boardImageUrl = dto.getBoardImageUrl();
+        try {
+
+            // TODO: 존재하지 않는 게시물 번호 반환
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return CustomResponse.notExistBoardNumber();
+
+            // TODO: 존재하지 않는 유저 이메일 반환
+            boolean existedUserEmail = userRepository.existsByEmail(userEmail);
+            if (!existedUserEmail) return CustomResponse.notExistUserEmail();
+
+            // TODO: 권한 없음
+            boolean equalWriter = boardEntity.getWriterEmail().equals(userEmail);
+            if (!equalWriter) return CustomResponse.noPermissions();//같지 않으면 if문에 들어 오게 됨
+
+            //boardEntity에 메서드를 만들어 메서드를 받아오는 식으로 하면 코드가 더욱 깔끔해짐
+            boardEntity.setTitle(boardTitle);
+            boardEntity.setContent(boardContent);
+            boardEntity.setBoardImageUrl(boardImageUrl);
+
+            boardRepository.save(boardEntity);
+
+        } catch (Exception exception) {
+            // TODO : 데이터베이스  오류 반환
+           exception.printStackTrace();
+           return CustomResponse.databaseError();
+        }
+
+        return CustomResponse.succes();
     }
 
     @Override

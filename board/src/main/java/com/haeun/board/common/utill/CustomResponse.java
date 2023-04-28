@@ -10,6 +10,11 @@ import com.haeun.board.dto.response.ResponseDto;
 //* 인터페이스의 제한 메서드의 선언부만 존재할 수 있다. 구현체를 작성할 수 없으므로 한 줄 변수로 만들어서 상수로 정의 하면 된다.
 public class CustomResponse {
 
+    public static ResponseEntity<ResponseDto> succes() {
+        ResponseDto body = new ResponseDto("SU", "SUCCES");
+        return ResponseEntity.status(HttpStatus.OK).body(body);
+    }
+
     public static ResponseEntity<ResponseDto> databaseError() {
         ResponseDto errorBody = new ResponseDto("DE","Database Error");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorBody);
@@ -25,5 +30,15 @@ public class CustomResponse {
     public static ResponseEntity<ResponseDto> notExistBoardNumber() {
         ResponseDto errorBody = new ResponseDto("NB","Non-Existent Board Number" );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorBody);
+    }
+
+    public static ResponseEntity<ResponseDto> notExistUserEmail() {
+        ResponseDto errorBody = new ResponseDto("NU","Non-Existent User Email" );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody); // 인증을 할 수 없다 : 너가 누구인지 모른다.
+    }
+
+    public static ResponseEntity<ResponseDto> noPermissions() {
+        ResponseDto errorBody = new ResponseDto("NP","No Permissions" );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorBody); //인가를 할 수 없다. : 너가 누구인지는 알지만 권한이 없다.
     }
 }

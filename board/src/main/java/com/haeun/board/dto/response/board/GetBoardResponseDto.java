@@ -73,7 +73,7 @@ class Comment {
         this.commentContent = commentEntity.getCommentContent();
         this.commentWriternickname = commentEntity.getUserNickname();
         this.commentWriterProfileImageUrl = commentEntity.getUserProfileImageUrl(); 
-        this.commentWriterDatetime = commentEntity.getWirteDatetime();
+        this.commentWriterDatetime = commentEntity.getWriteDatetime();
     }
     //* Entity클래스를 DTO클래스로 복사하는 행위 : 지금 이 작업을 한 이유는 서버에서 클라이언트로 반환을 해줘야하므로 데이터 이동 수단을 dto를 이용해야 하므로 entity에 있는 값을 dto에 넣고 있는 거
     static List<Comment> createList(List<CommentEntity> commentEntities)  { 
