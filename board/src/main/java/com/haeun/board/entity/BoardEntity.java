@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name = "Board")
 @Table(name = "Board")
-public class BoradEntity {
+public class BoardEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class BoradEntity {
     private String writeDatetime;
     private int viewCount;
 
-    public BoradEntity(PostBoardRequestDto dto) {
+    public BoardEntity(PostBoardRequestDto dto) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String writeDatetime = simpleDateFormat.format(now);
