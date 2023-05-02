@@ -173,8 +173,39 @@ public class BoardServiceImplement implements BoardService {
     }
 
     @Override
-    public ResponseEntity<ResponseDto> deleteBoard(String userEmail, Integer boardNumber) {
-        throw new UnsupportedOperationException("Unimplemented method 'deleteBoard'");
+    public ResponseEntity<ResponseDto> deleteBoard(String userEmail, Integer boardNumber) { 
+
+        try {
+            if (boardNumber == null) return CustomResponse.vaildationFaild(); //얘는 사용자로 부터 입력 받은 값이 없는 것이므로 vaildationFaild 오류인 것이다.
+
+            // TODO: 존재하지 않는 게시물 번호 반환
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return CustomResponse.notExistBoardNumber();
+
+            // TODO: 존재하지 않는 유저 이메일 반환
+            boolean existedUserEmail = userRepository.existsByEmail(userEmail);
+            if (!existedUserEmail) return CustomResponse.notExistUserEmail(); 
+
+            // TODO: 권환 없음 반환
+            boolean equalWriter = boardEntity.getWriterEmail().equals(userEmail);
+            if(!equalWriter) return CustomResponse.noPermissions();
+
+            // comment와 liky가 board를 참조하고 있기 때문에 board을 지울 떄 지워지지 않는 것이다.
+            // 그래서 comment와 liky를 먼저 지워주고 board를 지워줘야지 정상적으로 지워진다.
+            commentRepository.deleteByBoardNumber(boardNumber);
+            
+            likyRepository.deleteByBoardNumber(boardNumber);
+
+            boardRepository.delete(boardEntity);
+
+        } catch (Exception exception) {
+            // TODO : 데이터베이스 오류 반환
+            exception.printStackTrace();
+            return CustomResponse.databaseError();
+        }
+
+        return CustomResponse.succes();
+
     }
     
 }
