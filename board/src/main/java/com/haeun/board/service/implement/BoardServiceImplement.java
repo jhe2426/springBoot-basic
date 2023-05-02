@@ -148,6 +148,9 @@ public class BoardServiceImplement implements BoardService {
 
         try {
             
+            List<BoardListResultSet> resultSet = boardRepository.getTop3List();
+            body = new GetBoardListResponseDto(resultSet);
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return CustomResponse.databaseError();
