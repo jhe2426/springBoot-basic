@@ -17,6 +17,7 @@ import com.haeun.board.entity.BoardEntity;
 import com.haeun.board.entity.CommentEntity;
 import com.haeun.board.entity.LikyEntity;
 import com.haeun.board.entity.UserEntity;
+import com.haeun.board.entity.resultSet.BoardListResultSet;
 import com.haeun.board.repository.BoardRepository;
 import com.haeun.board.repository.CommentRepository;
 import com.haeun.board.repository.LikyRepository;
@@ -126,12 +127,33 @@ public class BoardServiceImplement implements BoardService {
 
     @Override
     public ResponseEntity<? super GetBoardListResponseDto> getBoardList() {
-        throw new UnsupportedOperationException("Unimplemented method 'getBoardList'");
+        GetBoardListResponseDto body = null;
+
+        try {
+
+            List<BoardListResultSet> resultSet = boardRepository.getList();
+            body = new GetBoardListResponseDto(resultSet);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return CustomResponse.databaseError();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
     @Override
     public ResponseEntity<? super GetBoardListResponseDto> getBoardTop3() {
-        throw new UnsupportedOperationException("Unimplemented method 'getBoardTop3'");
+        GetBoardListResponseDto body = null;
+
+        try {
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return CustomResponse.databaseError();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
     @Override
@@ -190,7 +212,7 @@ public class BoardServiceImplement implements BoardService {
             boolean equalWriter = boardEntity.getWriterEmail().equals(userEmail);
             if(!equalWriter) return CustomResponse.noPermissions();
 
-            // comment와 liky가 board를 참조하고 있기 때문에 board을 지울 떄 지워지지 않는 것이다.
+            // comment와 liky가 board를 참조하고 있기 때문에 board을 지울 때 지워지지 않는 것이다.
             // 그래서 comment와 liky를 먼저 지워주고 board를 지워줘야지 정상적으로 지워진다.
             commentRepository.deleteByBoardNumber(boardNumber);
             
