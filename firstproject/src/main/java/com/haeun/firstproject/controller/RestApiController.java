@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,6 +75,13 @@ public class RestApiController { //* 컨트롤러는 인터페이스로 잘 구�
     @GetMapping("get-method") // value속성은 생략 가능
     public String getMethod() {
         return restApiService.getMethod();
+    }
+
+    @GetMapping("get-method2") // value속성은 생략 가능
+    public String getMethod(
+        @AuthenticationPrincipal String subject
+    ) {
+        return subject;
     }
 
     // POST Method @PostMapping
