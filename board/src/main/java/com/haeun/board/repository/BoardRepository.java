@@ -26,7 +26,7 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
         "B.board_image_url AS boardImageUrl," +
         "B.write_datetime AS boardWriteDatetime," +
         "B.view_count AS viewCount," +
-        "U.email AS boardWrtierEmail," +
+        "U.email AS boardWriterEmail," +
         "U.nickname AS boardWriterNickname," +
         "U.profile_image_url AS boardWriterProfileImageUrl," +
         "count(DISTINCT C.comment_number) AS commentCount," +
@@ -50,7 +50,7 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
         "B.board_image_url AS boardImageUrl," +
         "B.write_datetime AS boardWriteDatetime," +
         "B.view_count AS viewCount," +
-        "U.email AS boardWrtierEmail," +
+        "U.email AS boardWriterEmail," +
         "U.nickname AS boardWriterNickname," +
         "U.profile_image_url AS boardWriterProfileImageUrl," +
         "count(DISTINCT C.comment_number) AS commentCount," +
