@@ -31,12 +31,13 @@ public class JwtTokenProvider {
         Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));//현재 시간에서 한시간 더한 시간을 데이터 값으로 가지고 있음
 
         //SignatureAlgorithm.HS256 : 암호화하는 방식
-        String jwt = Jwts.builder()
-                            .signWith(SignatureAlgorithm.HS256, subject)
-                            .setSubject(subject)
-                            .setIssuedAt(new Date())
-                            .setExpiration(expiredDate) //만료시간 설정
-                            .compact();
+        String jwt = 
+            Jwts.builder()
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setSubject(subject)
+                .setIssuedAt(new Date())
+                .setExpiration(expiredDate) //만료시간 설정
+                .compact();
         return jwt;
     }
 
