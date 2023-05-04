@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.haeun.board.dto.request.auth.SignUpRequestDto;
 import com.haeun.board.dto.request.user.PostUserRequestDto;
 
 import lombok.AllArgsConstructor;
@@ -36,4 +37,13 @@ public class UserEntity {
     }
 
 
+    public UserEntity(SignUpRequestDto dto) { // 서비스에서 dto에 있는 각 각의 멤버 필드를 다시 Entity클래스에 대입하는 것은 쓸데 없이 코드의 길이를 길게 하므로 Entity를 생성할 때 dto의 멤버 변수가 대입대도록 만든 것
+        this. email = dto.getUserEmail();
+        this.password = dto.getUserPassword();
+        this.nickname = dto.getUserNickname();
+        this.phoneNumber = dto.getUserPhoneNumber();
+        this.address = dto.getUserAddress();
+        this.consentPersonalInformation = true;
+        this.profileImageUrl = dto.getUserProfileImageUrl();
+    }
 }
