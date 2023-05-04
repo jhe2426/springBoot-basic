@@ -77,6 +77,7 @@ public class RestApiController { //* 컨트롤러는 인터페이스로 잘 구�
         return restApiService.getMethod();
     }
 
+    //@AuthenticationPrincipal 어노테이션을 사용해 사용자의 아이디를 얻을 수 있다.
     @GetMapping("get-method2") // value속성은 생략 가능
     public String getMethod(
         @AuthenticationPrincipal String subject
