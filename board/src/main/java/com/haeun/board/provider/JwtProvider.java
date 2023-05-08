@@ -33,7 +33,7 @@ public class JwtProvider {
         return jwt;
     }
 
-    //JWT 검증
+    //JWT 검증 및 토큰에 들어있는 subject를(User의 email이 들어있음) 반환해주는 기능
     public String validate(String jwt) {
         Claims claims = 
             Jwts.parser()

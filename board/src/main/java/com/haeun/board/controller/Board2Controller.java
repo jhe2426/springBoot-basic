@@ -6,7 +6,6 @@ package com.haeun.board.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,14 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.haeun.board.dto.response.board.GetBoardListResponseDto;
-import com.haeun.board.dto.response.board.GetBoardResponseDto;
-import com.haeun.board.dto.request.board.PatchBoardRequestDto;
+
+import com.haeun.board.dto.request.board2.PatchBoardRequestDto2;
 import com.haeun.board.dto.request.board2.PostBoardRequestDto2;
 import com.haeun.board.dto.response.ResponseDto;
-
+import com.haeun.board.dto.response.board.GetBoardListResponseDto;
+import com.haeun.board.dto.response.board.GetBoardResponseDto;
 import com.haeun.board.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,10 +40,14 @@ public class Board2Controller {
     // }
 
     //* 1. 게시물 작성 */
+    //*  POST api/v2/board (인증이 필요 함) -> 
+    //*  1.POST api/v2/auth/sign-in
+    //*  2. 1에서 받은 응답에서 토큰 가져오기
+    //*  3. 2에서 받은 토큰을 POST api/v2/board 요청 헤더에 Authorization Bearer에 추가 후 요청
     @PostMapping("")
     public ResponseEntity<ResponseDto> postBoard(
-        // 필터 JWT인증을 거치고 나면 authenticationToken에 유저의 이메일을 담고있음 그래서 유저의 정보를 꺼내올 때는 authenticationToken에서 가져오면 됨 
-        // body에서 사용자의 이메일을 매번 가져올 필요가 없음
+        //*  필터 JWT인증을 거치고 나면 authenticationToken에 유저의 이메일을 담고있음 그래서 유저의 정보를 꺼내올 때는 authenticationToken에서 가져오면 됨 
+        //*  Requestbody에서 사용자의 이메일을 매번 가져올 필요가 없음
         @ AuthenticationPrincipal String userEmail, 
         @Valid @RequestBody PostBoardRequestDto2 requestBody
     ) {
@@ -89,16 +91,18 @@ public class Board2Controller {
     //* 5. 특정 게시물 수정 */
     @PatchMapping("")
     public ResponseEntity<ResponseDto> patchBoard(
-        @Valid @RequestBody PatchBoardRequestDto requestBody
+        @ AuthenticationPrincipal String userEmail, 
+        @Valid @RequestBody PatchBoardRequestDto2 requestBody
     ) {
-        ResponseEntity<ResponseDto> response = boardService.patchBoard(requestBody);
+        ResponseEntity<ResponseDto> response = boardService.patchBoard(userEmail, requestBody);
         return response;
     }
 
     //* 6. 특정 게시물 삭제 */
-    @DeleteMapping("/{userEmail}/{boardNumber}")
+    @DeleteMapping("/{boardNumber}")
     public ResponseEntity<ResponseDto> deleteBoard(
-        @PathVariable("userEmail") String userEmail, @PathVariable("boardNumber") Integer boardNumber
+        @ AuthenticationPrincipal String userEmail, 
+        @PathVariable("boardNumber") Integer boardNumber
     ){
         ResponseEntity<ResponseDto> response = boardService.deleteBoard(userEmail, boardNumber);
         return response;

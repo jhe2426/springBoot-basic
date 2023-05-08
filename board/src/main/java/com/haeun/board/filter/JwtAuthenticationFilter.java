@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         return;
                     }
 
-                    //로그이한 사용자의 이메일 가져오는 코드
+                    //로그인한 사용자의 이메일 가져오는 코드
                     String email = jwtProvider.validate(jwt);
 
                     AbstractAuthenticationToken authenticationToken =

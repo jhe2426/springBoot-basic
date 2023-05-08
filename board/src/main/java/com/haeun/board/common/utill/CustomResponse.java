@@ -4,6 +4,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.haeun.board.dto.response.ResponseDto;
+//* ResponseEntity와 개발자가 만든 code,message,data를 멤버변수로 가지는 클래스 사용하는 이유
+// 개발자가 만든 Response클래스를 사용하는 이유는  프론트엔드가 작업하기 편해짐  
+// ResponseEntity를 사용하면 에러에 대한 코드가 error 부분에 전부 다 가게 되므로 프론트하는 사람이 다시 error변수를
+// if문으로 각 각의 오류 코드를 찾아내서 반환을 해줘야 한다고 함
+// 프론트엔드에서 작업을 할 경우 ResponseEntity말고 개발자가 따로 Response클래스를 사용하면 
+// 모든 Response가 error 부분으로 들어가는 것이 아닌 sucess부분으로 들어가게 되어 error부분에서 따로 구문을 줘서 찾을 필요가 없어지는 편리함이 생김
+
+
+
 
 //* common 폴더 자주 사용하는 코드를 여기에 작성하면 된다고 함
 //* 이 메서드는 재사용을 하기 위해서 사용하는 방법도 맞지만 저 메서드는 고객과 개발자들과의 약속이므로 인터페이스로 만드는 것이 맞다

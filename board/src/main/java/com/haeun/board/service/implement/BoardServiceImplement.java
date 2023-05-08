@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.haeun.board.common.utill.CustomResponse;
 import com.haeun.board.dto.request.board.PatchBoardRequestDto;
 import com.haeun.board.dto.request.board.PostBoardRequestDto;
+import com.haeun.board.dto.request.board2.PatchBoardRequestDto2;
 import com.haeun.board.dto.request.board2.PostBoardRequestDto2;
 import com.haeun.board.dto.response.ResponseDto;
 import com.haeun.board.dto.response.board.GetBoardListResponseDto;
@@ -48,32 +49,14 @@ public class BoardServiceImplement implements BoardService {
 
     @Override
     public ResponseEntity<ResponseDto> postBoard(PostBoardRequestDto dto) {
-        ResponseDto body = null;
-
         String boardWriterEmail = dto.getBoardWriterEmail();
+        PostBoardRequestDto2 dto2 = new PostBoardRequestDto2(dto);
 
-        // try {
-        //     // TODO : 존재하지 않는 유저 오류 반환
-        //     boolean existedUserEmail = userRepository.existsByEmail(boardWriterEmail);
-        //     if(!existedUserEmail) {
-        //         ResponseDto  errorBody = new ResponseDto("NU", "Non-Existent User Email"); 
-        //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody); // UNAUTHORIZED : 401에러
-        //     }
-            
-        //     BoardEntity boardEntity = new BoardEntity(dto);
-        //     boardRepository.save(boardEntity);
-
-        //     body = new ResponseDto("SU", "Success");
-
-        // } catch (Exception exeption) {
-        //     // TODO : 데이터베이스  오류 반환
-        //     exeption.printStackTrace();
-        //     ResponseDto errorBody = new ResponseDto("DE","Database Error");
-        //     return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorBody);
-        // }
+        // 밑에 똑깥은 로직이 있으므로 오버로드한  메서드를 호출해서 사용한 것
+        ResponseEntity<ResponseDto> response = postBoard (boardWriterEmail, dto2);
 
         // TODO : 성공 반환
-        return ; 
+        return response ; 
     }
 
     
@@ -192,8 +175,21 @@ public class BoardServiceImplement implements BoardService {
     @Override
     public ResponseEntity<ResponseDto> patchBoard(PatchBoardRequestDto dto) {
         
-        int boardNumber = dto.getBoardNumber();
         String userEmail = dto.getUserEmail();
+        PatchBoardRequestDto2 dto2 = new PatchBoardRequestDto2(dto);
+       
+
+        ResponseEntity<ResponseDto> response = patchBoard(userEmail, dto2);
+
+
+        return CustomResponse.succes();
+    }
+
+    //* Board2 특정 게시물 수정
+    @Override
+    public ResponseEntity<ResponseDto> patchBoard(String userEmail, PatchBoardRequestDto2 dto) {
+        
+        int boardNumber = dto.getBoardNumber();
         String boardTitle = dto.getBoardTitle();
         String boardContent = dto.getBoardContent();
         String boardImageUrl = dto.getBoardImageUrl();
@@ -227,6 +223,9 @@ public class BoardServiceImplement implements BoardService {
         return CustomResponse.succes();
     }
 
+
+
+    //* Board, Board2 특정 게시물 삭제
     @Override
     public ResponseEntity<ResponseDto> deleteBoard(String userEmail, Integer boardNumber) { 
 
