@@ -172,17 +172,18 @@ public class BoardServiceImplement implements BoardService {
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 
+    //* Board  특정 게시물 수정
     @Override
     public ResponseEntity<ResponseDto> patchBoard(PatchBoardRequestDto dto) {
-        
+        //같은 서비스 요청에 url가 다를 때 어떻게 처리해야하나 : Controller에서 처리를 해야한다.(그러면 Controller에 연산작업이 있어도 되냐)
+        // 서비스에서 작업을 처리하면 매개변수가 여러가지 일 때 불편해진다, 관리해야하는 메서드의 수가 많이 늘어나게 된다. (그래도 규칙을 준수하는 것이 나은 거 같음)
+        // 하지만 장점으로는 서비스에서만 연산 처리가 되어야한다는 규칙을 지킬 수 있다.
         String userEmail = dto.getUserEmail();
-        PatchBoardRequestDto2 dto2 = new PatchBoardRequestDto2(dto);
-       
-
+        PatchBoardRequestDto2 dto2 = new PatchBoardRequestDto2(dto);//서비스에 같은 서비스 요청에 대해 가공을 한 것(서비스에서만 연산 처리가 되어야한다는 규칙을 지킬 수 있다.)
+       //* 컨트롤러에서 해당 작업을 하고 싶으면 PatchBoardRequestDto2 dto2 = new PatchBoardRequestDto2(dto);이거만 해당 컨트롤러에 추가를 해주면 됨
         ResponseEntity<ResponseDto> response = patchBoard(userEmail, dto2);
 
-
-        return CustomResponse.succes();
+        return response;
     }
 
     //* Board2 특정 게시물 수정
