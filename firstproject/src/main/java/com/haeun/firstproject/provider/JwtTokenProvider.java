@@ -45,9 +45,9 @@ public class JwtTokenProvider {
         String jwt = 
             Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                // .setSubject(subject)
-                // .setIssuedAt(new Date())
-                // .setExpiration(expiredDate) //만료시간 설정
+                //.setSubject(subject)
+                .setIssuedAt(new Date())
+                .setExpiration(expiredDate) //만료시간 설정
                 .claim("id", id)
                 .claim("role", role)
                 .compact();

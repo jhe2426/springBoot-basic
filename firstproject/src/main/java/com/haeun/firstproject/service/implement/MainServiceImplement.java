@@ -24,9 +24,11 @@ public class MainServiceImplement implements MainService{
        return "Hello";
     }
 
+    //JWT 생성하는 서비스 여기서 role을 추가해주면 되는 것 role을 주소에서 값을 받아오는 것은 아님
     @Override
     public String getJwt(String data) {
-        String jwt = jwtTokenProvider.create(data);
+        int role = 1;
+        String jwt = jwtTokenProvider.create(data,role);
         return jwt;
     }
 
