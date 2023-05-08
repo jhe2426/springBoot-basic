@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.haeun.board.common.utill.CustomResponse;
 import com.haeun.board.dto.request.board.PatchBoardRequestDto;
 import com.haeun.board.dto.request.board.PostBoardRequestDto;
+import com.haeun.board.dto.request.board2.PostBoardRequestDto2;
 import com.haeun.board.dto.response.ResponseDto;
 import com.haeun.board.dto.response.board.GetBoardListResponseDto;
 import com.haeun.board.dto.response.board.GetBoardResponseDto;
@@ -51,15 +52,47 @@ public class BoardServiceImplement implements BoardService {
 
         String boardWriterEmail = dto.getBoardWriterEmail();
 
+        // try {
+        //     // TODO : 존재하지 않는 유저 오류 반환
+        //     boolean existedUserEmail = userRepository.existsByEmail(boardWriterEmail);
+        //     if(!existedUserEmail) {
+        //         ResponseDto  errorBody = new ResponseDto("NU", "Non-Existent User Email"); 
+        //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody); // UNAUTHORIZED : 401에러
+        //     }
+            
+        //     BoardEntity boardEntity = new BoardEntity(dto);
+        //     boardRepository.save(boardEntity);
+
+        //     body = new ResponseDto("SU", "Success");
+
+        // } catch (Exception exeption) {
+        //     // TODO : 데이터베이스  오류 반환
+        //     exeption.printStackTrace();
+        //     ResponseDto errorBody = new ResponseDto("DE","Database Error");
+        //     return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorBody);
+        // }
+
+        // TODO : 성공 반환
+        return ; 
+    }
+
+    
+    //* Board2의 게시물 작성
+    @Override
+    public ResponseEntity<ResponseDto> postBoard(String userEmail, PostBoardRequestDto2 dto) {
+
+        ResponseDto body = null;
+
+
         try {
             // TODO : 존재하지 않는 유저 오류 반환
-            boolean existedUserEmail = userRepository.existsByEmail(boardWriterEmail);
+            boolean existedUserEmail = userRepository.existsByEmail(userEmail);
             if(!existedUserEmail) {
                 ResponseDto  errorBody = new ResponseDto("NU", "Non-Existent User Email"); 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorBody); // UNAUTHORIZED : 401에러
             }
             
-            BoardEntity boardEntity = new BoardEntity(dto);
+            BoardEntity boardEntity = new BoardEntity(userEmail, dto);
             boardRepository.save(boardEntity);
 
             body = new ResponseDto("SU", "Success");
@@ -74,9 +107,6 @@ public class BoardServiceImplement implements BoardService {
         // TODO : 성공 반환
         return ResponseEntity.status(HttpStatus.OK).body(body);
     }
-
-
-
 
 
     

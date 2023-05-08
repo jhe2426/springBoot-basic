@@ -36,13 +36,13 @@ public class WebSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
             .antMatchers("/api/vi/**", "/api/v2/auth/**").permitAll()
-            // .antMatchers("/api/v2/board/list", "/api/v2/board/top3").permitAll() 아래 줄과 같은 의미
-            .antMatchers(HttpMethod.GET, "/api/v2/board/*").permitAll()
+            // .antMatchers("/api/v1/board/list", "/api/v1/board/top3").permitAll() 아래 줄과 같은 의미
+            .antMatchers(HttpMethod.GET, "/api/v1/board/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v2/board/**").permitAll()
             .anyRequest().authenticated(); //나머지 요청은 인증된 사용자만 접근할 수 있도록 설정한다.
             // JwtAuthenticationFilter를 HttpSecurity필터에 추가한다. 이 필터는 요청이 들어올 때마다 JWT 인증을 처리한다.
              //UsernamePasswordAuthenticationFilter.class이전에 jwtAuthenticationFilter필터 작업을 해야해서 아래와 같이 작성함
             httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
         return httpSecurity.build();
     }
 }
