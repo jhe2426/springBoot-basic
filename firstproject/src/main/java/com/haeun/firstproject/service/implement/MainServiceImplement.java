@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.haeun.firstproject.provider.JwtTokenProvider;
+import com.haeun.firstproject.provider.UserRole;
 import com.haeun.firstproject.service.MainService;
 
 // @Component 서버의 Bean을 나열해 놓는 곳에 해당 객체가 올라갈 수 있게 해주는 어노테이션 @Autowired로 주입을 할 수 있게 됨 
@@ -30,8 +31,8 @@ public class MainServiceImplement implements MainService{
     }
 
     @Override
-    public String validJwt(String jwt) {
-       String subject = jwtTokenProvider.validate(jwt);
+    public UserRole validJwt(String jwt) {
+       UserRole subject = jwtTokenProvider.validate(jwt);
        return subject;
     }
     

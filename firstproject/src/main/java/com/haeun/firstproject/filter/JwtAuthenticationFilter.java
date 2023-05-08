@@ -20,6 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.haeun.firstproject.provider.JwtTokenProvider;
 // 필터 구간에서 security가 작동이 됨 필터의 위치는 Controller 이전에 위치함
 // equalsIgnoreCase 대소문 구별 없이 비교하는 메서드
+import com.haeun.firstproject.provider.UserRole;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
@@ -46,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                     }
 
                     //subject를 가져오는 코드 subject는 거의 유저의 id값이 들어오게 됨
-                    String subject = jwtTokenProvider.validate(jwt);
+                    UserRole subject = jwtTokenProvider.validate(jwt);
 
                     // AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(subject, null, AuthorityUtils.NO_AUTHORITIES);
                     // 비밀번호 : null 권한 : AuthorityUtils.NO_AUTHORITIES 권한을 가지고 있지 않다
