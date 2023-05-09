@@ -34,7 +34,7 @@ public class FileController {
     }
 
     //* 파일 불러오기
-    @GetMapping(value = GET_URL, produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    @GetMapping(value = GET_URL, produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE}) //produces : 출력하고자 하는 데이터 포맷을 정의한다.
     public Resource getFile(
     @PathVariable("fileName") String fileName
     ) {
