@@ -31,7 +31,7 @@ public class WebSecurityConfig {
                                 .csrf().disable() //csrf는 백엔드 개발자는 세션을 관리하지 않기 때문에 disable로 설정 서버 개발자가 세션 관리한다고 함
                                 .httpBasic().disable()
                                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //세션을 생성하지 않음
-                                .authorizeRequests().antMatchers("/jwt/**").permitAll() // /jwt/** 이 패턴으로 요청오는 것은 접근 권한을 모두 허용한다.
+                                .authorizeRequests().antMatchers("/jwt/**", "/file/**").permitAll() // /jwt/** 이 패턴으로 요청오는 것은 접근 권한을 모두 허용한다.
                                 .anyRequest().authenticated();
                                 
         //UsernamePasswordAuthenticationFilter.class이전에 jwtAuthenticationFilter필터 작업을 해야해서 아래와 같이 작성함
