@@ -30,7 +30,6 @@ public class MainController {
 
     @GetMapping("/jwt/{data}")
     public String getJwt(
-        @AuthenticationPrincipal UserRole userRole,
         @PathVariable("data") String data
         ) {
         return mainService.getJwt(data);
